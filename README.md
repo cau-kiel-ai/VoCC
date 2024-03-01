@@ -22,3 +22,16 @@ After the image is created you can start the jupyter instance with the execution
 `docker run --rm -p8888:8888 -v$(pwd):/home/jovyan/work/ vocc-jupyter`
 
 The console will print an address to the jupyter lab as localhost address which can be opend in any browser or used in Visual Studio Code as an remote jupyter instance.
+
+## Citation
+
+If you find our work useful, please consider citing:
+```
+@inproceedings{TavaresdeSousa2023VoCC,
+  author   = {Tavares de Sousa, Nelson and W\"{o}lker, Yannick and Renz, Matthias and Biastoch, Arne},
+  title    = {VoCC: Vortex Correlation Clustering Based on Masked Hough Transformation in Spatial Databases},
+  year     = {2023}
+  url      = {https://doi.org/10.1145/3609956.3609971}, 
+  booktitle= {Proceedings of the 18th International Symposium on Spatial and Temporal Data}
+}
+```
