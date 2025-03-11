@@ -58,6 +58,7 @@ class VortexCorrelationClustering(ClusterMixin, BaseEstimator):
         self.cylindrical = cylindrical
         self.vortices_ = None
         self.labels_ = None
+        self.accumulator_ = None
 
     
     def fit(self, X, y=None):
@@ -91,11 +92,11 @@ class VortexCorrelationClustering(ClusterMixin, BaseEstimator):
         self.D_binned = D_binned
         normal_vectors = _bin_image(X, Y, U, V, D_binned, self.cell_size)
 
-        accumulator = _create_parameter_space(normal_vectors, self.radii, self.sectors, self.circle_coverage_rate, self.depth_boundaries, self.cylindrical)
+        self.accumulator_ = _create_parameter_space(normal_vectors, self.radii, self.sectors, self.circle_coverage_rate, self.depth_boundaries, self.cylindrical)
         
-        threshold = np.max(np.abs(np.quantile(accumulator, [1 - self.qth_threshold, self.qth_threshold])))
-        vortices_direction_1 = _extract_vortices_from_parameter_space(accumulator, threshold, self.radii, 'a')
-        vortices_direction_2 = _extract_vortices_from_parameter_space(-accumulator, threshold, self.radii, 'c')
+        threshold = np.max(np.abs(np.quantile(self.accumulator_, [1 - self.qth_threshold, self.qth_threshold])))
+        vortices_direction_1 = _extract_vortices_from_parameter_space(self.accumulator_, threshold, self.radii, 'a')
+        vortices_direction_2 = _extract_vortices_from_parameter_space(-self.accumulator_, threshold, self.radii, 'c')
 
         grouped_vortices_1 = _merge_votex_candidates(vortices_direction_1, self.radii, self.min_points)
         grouped_vortices_2 = _merge_votex_candidates(vortices_direction_2, self.radii, self.min_points)
